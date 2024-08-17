@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+	.custom-chat-box {
+  max-height: 80px; /* Adjust the maximum height as needed */
+}
+	</style>
+<div style="background-image: url('/media/bg9.jpg'); background-repeat:no-repeat;background-size:cover;  height:600px; width: 100;">
+    <div class="container sticky-top" style="width: 50%;">
+        <div class="col-md-12" style="background-color: lightgrey; height: 450px">
+            <div id='maindiv' class='col-md-12' style='background-color: lightgrey; height: 450px;overflow-y: scroll;overflow-x: hidden; align-self: center;'>
+                <div class='col-md-12' id="chat">
+                   <div class="col-md-12 sticky-top">
+    <div id="Hellodiv" class='col-md-12 shadow-lg p-2 w-100 p-3 mb-1 rounded mt-3 float-right text-center' style='background-color:lightpink; border-style: solid; border-color: black; overflow: auto; z-index: 55;'>
+        <br><span style="color: white; font-size:large; margin-right: 10px">Chatbot for You</span><br><br>
+    </div>
+</div>
+                </div>
+            </div>
+            <form class="form-signin" action="/Chatpages/" method="POST">
+                <div style="background-color: lightgrey; height: 50px;margin-top: 1%;padding:1%">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-right: 0;">
+                                <input type="text" class="col-md-12 form-control" required="" id="inputtext" name="inputtext" placeholder="Type here...." style="border-radius: 5px 0 0 5px;">
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0;">
+                                <input type="button" style="height:35px;width:100%;background-color: lightpink;border-radius: 0 5px 5px 0;" value="Enter" name="temp" id="temp" onclick="adddiv(),ChatReply()">
+                            </div>
+                        </div>
+                    </div>;
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function adddiv() {
+            var text = $("#inputtext").val();
+            if (text != "") {
+                $("<br><div class='col-md-6 shadow-lg p-2 w-80 p-3 mb-1 rounded mt-3 float-right' style='background-color: lightblue; border-style: solid; border-color: black;z-index: 55; margin-right: 0px; float: right;'><span style='color: black; '>" + text + "</span></div><br><br><br>").appendTo("#chat");
+                
+                // Clear the input field
+               
+            } else {
+                alert("Please enter the text");
+            }
+    }
+
+        function ChatReply() {
+            var text = $("#inputtext").val();
+            if (text != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/detect",
+                    data: JSON.stringify(text),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (data) {
+                        var reply = data["respond"];
+                        var reply1 = data["respond1"];
+
+                        var reply0 = [
+    'https://www.youtube.com/watch?v=F5378Ag9EjA',
+    'https://www.example.com',
+    'https://www.anotherexample.com'
+];
+
+
+if (reply1 === 'True') {
+    if (Array.isArray(reply0) && reply0.length > 0) {
+        $("#inputtext").val("");
+        $("<br><br><br>").appendTo("#chat");
+
+        reply0.forEach(function (url, index) {
+            var linkId = 'lnkTarget' + index;
+            $("<div class='col-md-6 shadow-lg p-2 w-80 p-3 mb-1 rounded mt-3' style='background-color: white;border-style: solid; border-color: black; overflow: auto; z-index: 55;margin-left:0px;'><br><span style='color: black;'><a id='" + linkId + "' href='" + url + "' target='_blank'>" + url + "</a></span><br><br></div>").appendTo("#chat");
+            $('#' + linkId).attr('href', url);
+        });
+
+        $("<br>").appendTo("#chat");
+    }
+                            $("<br><br><br><div class='col-md-6 shadow-lg p-2 w-80 p-3 mb-1 rounded mt-3 ' style='background-color: white;border-style: solid;  border-color: black; overflow: auto; z-index: 55;margin-left:0px;'><br><span style='color: black;'>" + reply + "</span><br><br></div><br>").appendTo("#chat");
+
+                            $("<br><br><br><div class='col-md-6 shadow-lg p-2 w-80 p-3 mb-1 rounded mt-3 ' style='background-color: white;border-style: solid;  border-color: black; overflow: auto; z-index: 55;margin-left:0px;'><br><span style='color: black;'>" + reply2 + "</span><br><br></div><br>").appendTo("#chat");
+
+                        } else {
+                            $("#inputtext").val("");
+                            $("<br><br><br><div class='col-md-6 shadow-lg p-2 w-80 p-3 mb-1 rounded mt-3 ' style='background-color: white;border-style: solid;  border-color: black; overflow: auto; z-index: 55;margin-left:0px;'><br><span style='color: black;'>" + reply + "</span><br><br></div><br>").appendTo("#chat");
+                        }
+                       
+                    }
+
+                })
+            }
+        }
+    </script>
+</div>
+<br>
+
+{% endblock %}

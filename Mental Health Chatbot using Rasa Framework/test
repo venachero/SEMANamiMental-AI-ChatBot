@@ -1,0 +1,76 @@
+testdef detect():
+    if request.method == 'POST':
+        '''test = request.json
+                                print('test',test)'''
+        test = []
+        val = request.get_json()
+        print(val)
+        y = val
+        edu = TextBlob ( val )
+        x = edu.sentiment.polarity
+        negative_counter=0
+        neutral_counter=0
+        positive_counter=0
+        # Negative = x < 0 and Neutral = 0 and Positive x > 0 && x < = 1
+        if  x < 0 :
+            negative_counter+=1
+            a=" Negative "
+            val = 'https://www.youtube.com/watch?v=a5OHvmHGZ1M'
+            test.append(a)
+            '''data1 = 'True'
+                                                data = {
+                                                'respond': val,'respond1':data1
+                                                }
+                                                return jsonify(data)'''
+        elif  x == 0 :
+            neutral_counter+=1
+            a="Neutral "
+            test.append(a)
+        elif  x > 0   :
+            positive_counter+=1
+            a=" Positive "
+            test.append(a)
+        data = json.dumps({"sender": "Rasa","message": val})
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        res = requests.post('http://localhost:5005/webhooks/rest/webhook', data= data, headers = headers)
+        res = res.json()
+        print(res)
+        #print(res[0]['text'])
+        #val = res[0]['text']
+        if len(res) == 0:
+            '''data = json.dumps({"sender": "Rasa","message": val})
+                                                headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+                                                res = requests.post('http://localhost:5005/webhooks/rest/webhook', data= data, headers = headers)
+                                                res = res.json()
+                                                print('res',res)'''
+            data1 = 'False'
+            val = 'Sorry,I didnt get you please try something else.'
+            data = {
+            'respond': val,'respond1':data1
+            }
+            return jsonify(data)
+        else:
+            print(res[0]['text'])
+            val = res[0]['text']
+
+            valid=urlparse(val)
+            print('valid',valid)
+            import validators
+            valid=validators.url(val)
+            if valid==True:
+                print("Url is valid")
+                data1 = 'True'
+                data = {
+                'respond': val,'respond1':data1
+                }
+                return jsonify(data)
+            else:
+                print("Invalid url")
+                data1 = 'False'
+                data = {
+                'respond': val,'respond1':data1
+                }
+                return jsonify(data)
+            
+        print(test)
+    return render_template('detect.html')

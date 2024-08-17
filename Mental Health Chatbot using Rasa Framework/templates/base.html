@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask Auth Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="hero is-fullheight" style="background-color:">
+        <section class="hero is-fullheight" style="background-image: url('{{ url_for('static', filename='chat3.jpg') }}'); background-size: cover; background-position: center;height: 600px;">
+
+    
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+<div class="container">
+    <div id="navbarMenuHeroA" class="navbar-menu">
+        <div class="navbar-start">
+            <a href="#" class="navbar-item" style="font-weight:bolder;">
+            AI  Mental Health Therapist Chatbot System
+            </a>
+        </div>
+
+        <div class="navbar-end">
+            <a href="{{ url_for('main.index') }}" class="navbar-item" style="font-weight:bolder;">
+                Home
+            </a>
+            {% if current_user.is_authenticated %}
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('auth.login') }}" class="navbar-item" style="font-weight:bold;">
+                Login
+            </a>
+            <a href="{{ url_for('auth.signup') }}" class="navbar-item"  style="font-weight:bold;">
+                Sign Up
+            </a>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('auth.detect') }}" class="navbar-item" style="font-weight:bold;">
+                Chat With Chatbot
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="font-weight:bold;">
+                Logout
+            </a>
+
+            
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+                </div>
+            </nav>
+              {% block content %}{% endblock %}      
+        </div>
+         
+</section>
+       
+         
+        
+
+   
+    <section id="courses" class="section" style="background-color:lightpink;">
+        <div class="container" style="width:100%">
+           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+      <div class="carousel-item active">
+      <img src="{{url_for('static', filename='bg.jpg')}}" style="height:500px;width:100%">
+    </div>
+    <div class="carousel-item ">
+      <img src="{{url_for('static', filename='pic1.jpg')}}"  style="height:500px;width:100%">
+    </div>
+  
+    <div class="carousel-item">
+      <img src="{{url_for('static', filename='adobestock_259681756_0.jpeg')}}" style="height:500px;width:100%">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+        </div>
+    </section>
+
+    <section id="mental-health" class="section" style="background-color:lightpink;">
+        <div class="container">
+            <h2 class="title">Mental Health</h2>
+
+            <div class="content">
+                <p>Mental health is an essential aspect of overall well-being. It encompasses emotional, psychological, and social well-being, affecting how we think, feel, and act. Here are some insights into mental health and its impact:</p>
+
+                <h3 class="subtitle">Impact of Poor Mental Health:</h3>
+                <ul>
+                    <li>Increased stress levels</li>
+                    <li>Difficulty concentrating</li>
+                    <li>Changes in sleep patterns</li>
+                    <li>Feelings of sadness or hopelessness</li>
+                    <li>Strained relationships</li>
+                    <li>Reduced productivity</li>
+                </ul>
+
+                <h3 class="subtitle">Solutions and Tips:</h3>
+                <p>Improving mental health involves adopting healthy habits and seeking support when needed. Here are some solutions:</p>
+
+                <ul>
+                    <li><strong>Practice Self-Care:</strong> Prioritize activities that bring joy and relaxation, such as hobbies, exercise, and meditation.</li>
+                    <li><strong>Build a Support System:</strong> Share your feelings with trusted friends, family, or professionals. Connecting with others is crucial.</li>
+                    <li><strong>Seek Professional Help:</strong> If needed, consult with mental health professionals, such as therapists or counselors.</li>
+                    <li><strong>Establish Healthy Routines:</strong> Maintain a regular sleep schedule, eat balanced meals, and incorporate physical activity into your routine.</li>
+                    <li><strong>Manage Stress:</strong> Identify stressors and develop coping mechanisms, such as deep breathing or mindfulness.</li>
+                </ul>
+
+                <p>Remember, taking care of your mental health is a continuous process. Small, consistent efforts can lead to significant improvements in overall well-being.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" style="background-color:lightgrey;">
+        <div class="content has-text-centered">
+            <p>
+                <strong>   AI  Mental Health System</strong> &copy; 2023. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+ </section>
+
+</html>
